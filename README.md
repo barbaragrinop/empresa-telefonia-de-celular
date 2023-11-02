@@ -6,5 +6,5 @@ Trabalho prático - Desenvolvimento para Servidores I
 
 Barbara Hellen da Silva Pereira <br>
 Bruna Costa Pinheiro de Souza <br>
-Lucas Garcia dos Santos
+Lucas Garcia dos Santos<br>
 Nathália Regina Vieira Teixeira <br>
