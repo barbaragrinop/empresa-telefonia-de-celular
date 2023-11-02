@@ -1,5 +1,3 @@
-# empresa-telefonia-celular
-
 Trabalho prático - Desenvolvimento para Servidores I
 
 # Integrantes do Grupo
