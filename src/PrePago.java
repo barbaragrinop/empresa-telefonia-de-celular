@@ -43,7 +43,9 @@ public class PrePago extends Assinante {
     }
 
 
-    public void recarregar(Date data, float valor){}
+    public void recarregar(GregorianCalendar data, float valor){
+
+    }
 
 
     public void imprimirFatura(int mes){}
