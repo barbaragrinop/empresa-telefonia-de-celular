@@ -43,7 +43,7 @@ public class Telefonia{
 
   }
   private static void listarAssinantes(){
-
+    //listar assinantes
   }
   private static void fazerChamada(){
 
