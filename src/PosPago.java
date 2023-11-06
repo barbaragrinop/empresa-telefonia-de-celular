@@ -1,1 +1,4 @@
-public class PosPago{}
+public class PosPago{
+
+    system.out.println("oi");
+}
