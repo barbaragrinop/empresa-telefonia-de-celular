@@ -2,55 +2,75 @@ import java.util.Scanner;
 
 public class Telefonia{
 
-    //atributos
-    private static int numPrePagos = 0, numPosPagos = 0;
+  //atributos
+  private PrePago prePagos;
+  private PosPago posPagos;
+  private int numPrePagos, numPosPagos;
 
-    //funções/metodos
-  private static void cadastrarAssinante(){
+  //construtor -> instancia os vetores
+  public Telefonia(){
+    this.prePagos = new PrePago[10];
+    this.posPagos = new PosPago[10];
+    this.numPrePagos = 0;
+    this.numPosPagos = 0;
+  }
+
+  //funções/metodos
+  private void cadastrarAssinante(){
     Scanner entrada = new Scanner(System.in);
-    String nm;
+    String nome;
     long cpf;
-    int opc, num;
+    int opcao, numero;
 
     do{
       System.out.println("\nTipos de assinatura");
       System.out.println("1- Pré-pago \n2- Pós-pago");
       System.out.print("Opção: ");
-      opc = entrada.nextInt(); 
-    } while( opc != 1 && opc != 2);
+      opcao = entrada.nextInt(); 
+    } while( opcao != 1 && opcao != 2);
 
+    if(opcao == 1 && numPrePagos >= prePagos.length){
+      System.out.println("Não há mais espaço para cadastro de assinantes pré pagos!");
+      break;
+    }
+    if(opcao == 2 && numPosPagos >= posPagos.length){
+      System.out.println("Não há mais espaço para cadastro de assinantes pós pagos!");
+      break;
+    }
+    
     System.out.print("\nNome do assinante: ");
-    nm = entrada.next();
+    nome = entrada.next();
     System.out.print("CPF do assinante: ");
     cpf = entrada.nextLong();
     System.out.print("Número do assinante: ");
-    nm = entrada.next();
+    numero = entrada.next();
 
-    if(opc == 2){
-        float ass;
-        System.out.print("Valor da assinatura: ");
-        ass = entrada.nextFloat();
-      
-        //Assinante novo = new PosPago(cpf, nm, num, ass);
-        //PosPago novo = new PosPago(cpf, nm, num, ass);
-        numPosPagos++;
+    if(opcao == 2){
+      float assinatura;
+      System.out.print("Valor da assinatura: ");
+      assinatura = entrada.nextFloat();
+
+      posPagos[numPosPagos] = new PosPago(nome, cpf, numero, assinatura);
+      numPosPagos++;
     }
     else{
-      //Assinante novo = new PrePago(cpf, nm, num);
-      //PrePago novo = new PrePago(cpf, nm, num);
+      prePagos[numPrePagos] = new PrePago(nome, cpf, numero);
       numPrePagos++;
     }
-
   }
+
   private static void listarAssinantes(){
     //listar assinantes
   }
+  
   private static void fazerChamada(){
 
   }
+
   private static void fazerRecarga(){
 
   }
+
   private static void imprimirFatura(){
 
   }
