@@ -3,9 +3,9 @@ import java.util.Scanner;
 public class Telefonia{
 
   //atributos
-  private PrePago prePagos;
-  private PosPago posPagos;
-  private int numPrePagos, numPosPagos;
+  private static PrePago prePagos;
+  private static PosPago posPagos;
+  private static int numPrePagos, numPosPagos;
 
   //construtor -> instancia os vetores
   public Telefonia(){
@@ -59,24 +59,42 @@ public class Telefonia{
     }
   }
 
-  private static void listarAssinantes(){
-    //listar assinantes
+  private void listarAssinantes()
+  {
+    //assinantes pre pagos
+    if(numPrePagos > 0){
+      System.out.println("Assinantes do tipo pré-pago: ");
+      for (int i = 0; i < numPrePagos; i++){
+        System.out.println((i+1) + " - " + prePagos[i].toString() + ";");
+      }
+    } 
+
+    //assinantes pos pagos
+    if(numPosPagos > 0){
+      System.out.println("\nAssinantes do tipo pos-pago: ");
+      for (int i = 0; i < numPosPagos; i++){
+        System.out.println((i+1) + " - " + posPagos[i].toString() + ";");
+      }
+    }
   }
-  
-  private static void fazerChamada(){
+
+  private void fazerChamada(){
 
   }
 
-  private static void fazerRecarga(){
+  private void fazerRecarga(){
 
   }
 
-  private static void imprimirFatura(){
+  private void imprimirFatura(){
 
   }
 
     //menu
   public static void main(String[] args){
+    
+    public tel = new Telefonia();
+    
     Scanner entrada = new Scanner(System.in);
 
     int op;
