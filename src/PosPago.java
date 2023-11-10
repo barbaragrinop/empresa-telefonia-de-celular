@@ -1,4 +1,6 @@
 public class PosPago{
 
-    system.out.println("oi");
+    system.out.println("pos pago");
+
+
 }
