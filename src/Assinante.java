@@ -1,29 +1,29 @@
-import java.util.List;
-
 public class Assinante {
     private long cpf;
     private String nome;
     private int numero;
     protected int numChamadas;
+    protected Chamada[] chamadas;
 
-    private List<Chamada> chamadas;
-
-    public Assinante(long cpf, String nome, int numero) {
+    public Assinante(long cpf, String nome, int numero, int numChamadas, Chamada[] chamadas) {
         this.cpf = cpf;
         this.nome = nome;
         this.numero = numero;
+        this.numChamadas = numChamadas;
+        this.chamadas = new Chamada[numChamadas];
     }
+
     public long getCpf(){
-        return this.cpf;
+        return cpf;
     }
 
     @Override
     public String toString() {
         return "Assinante{" +
-                "cpf=" + cpf +
-                ", nome='" + nome + '\'' +
-                ", numero=" + numero +
-                ", numChamadas=" + numChamadas +
+                "CPF=" + cpf +
+                ", Nome='" + nome + '\'' +
+                ", Numero=" + numero +
+                ", Numero de Chamadas=" + numChamadas +
                 '}';
     }
 
