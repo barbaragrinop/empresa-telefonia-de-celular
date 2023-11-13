@@ -7,3 +7,5 @@ public class PosPago{
         public PosPago(long cpf, String nome, int numero, float assinatura) {
             super(cpf, nome, numero); 
             this.assinatura = assinatura;
+
+            System.out.println("oi");
