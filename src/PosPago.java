@@ -24,3 +24,19 @@ public class PosPago{
                 System.out.println("Não há espaço para mais chamadas.");
             }
         }
+         public void imprimirFatura(int mes) {
+
+            System.out.println("CPF: " + this.cpf);
+            System.out.println("Nome: " + this.nome);
+            System.out.println("Número de telefone: " + this.numeroTelefone);
+          
+            for (Chamada chamada : this.chamadas) {
+              System.out.println("Data: " + chamada.getData());
+              System.out.println("Duração: " + chamada.getDuracao());
+              System.out.println("Valor: " + chamada.getValor());
+            }
+          
+            double valorTotal = this.assinatura + this.custoLigacoes;
+            System.out.println("Valor total: " + valorTotal);
+          }
+          
