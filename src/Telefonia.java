@@ -121,7 +121,50 @@ public class Telefonia{
 
   //Imprimir faturas: o sistema deverá solicitar o mês e imprimir todas as faturas dos assinantes pré-pagos e pós-pagos;
   private void imprimirFaturas(){
+    Scanner entrada = new Scanner(System.in);
+    int mes;
 
+    //exibir os meses com seus numeros correspondentes
+    System.out.println("1 - Janeiro");
+    System.out.println("2 - Fevereiro");
+    System.out.println("3 - Março");
+    System.out.println("4 - Abril");
+    System.out.println("5 - Maio");
+    System.out.println("6 - Junho");
+    System.out.println("7 - Julho");
+    System.out.println("8 - Agosto");
+    System.out.println("9 - Setembro");
+    System.out.println("10 - Outubro");
+    System.out.println("11 - Novembro");
+    System.out.println("12 - Dezembro\n");
+
+    //solicitar o mes desejado...
+    do{
+      System.out.print("Mês da fatura: ");
+      mes = entrada.nextInt();
+    }while(mes < 1 || mes > 12); //...enquanto a resposta nao for valida
+
+    //pre pagos
+    if(numPrePagos > 0){
+      System.out.println("\nAssinantes do tipo pré-pago: ");
+
+      //percorrer o vetor de assinantes pre-pagos
+      for (int i = 0; i < numPrePagos; i++){
+        //exibir metodo imprimirFatura dos assinantes prePagos no mes inserido
+        System.out.println("\n"+ prePagos[i].imprimirFatura(mes));
+      }
+    } 
+
+    //pos pagos
+    if(numPosPagos > 0){
+      System.out.println("\nAssinantes do tipo pos-pago: ");
+
+      //percorrer o vetor de assinantes pos-pagos
+      for (int i = 0; i < numPosPagos; i++){
+        //exibir método imprimirFatura dos assinantes posPagos no mes inserido
+        System.out.println("\n" + posPagos[i].imprimirFatura(mes));
+      }
+    }
   }
 
   //menu
