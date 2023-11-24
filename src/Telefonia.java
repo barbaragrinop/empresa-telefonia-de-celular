@@ -110,6 +110,12 @@ public class Telefonia{
   //localizar PrePago: devolve o assinante do tipo pré-pago registrado no vetor prePagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PrePago localizarPrePago(long cpf){
 
+    for(int i = 0; i < numPrePagos; i++){
+      if(prePago[i].getCpf() == cpf){
+          return prePago[i];
+      }
+    }
+          return null;
 
   }
 
