@@ -146,8 +146,8 @@ public class Telefonia{
   private PrePago localizarPrePago(long cpf){
 
     for(int i = 0; i < numPrePagos; i++){
-      if(prePago[i].getCpf() == cpf){
-          return prePago[i];
+      if(prePagos[i].getCpf() == cpf){
+          return prePagos[i];
       }
     }
           return null;
@@ -156,7 +156,12 @@ public class Telefonia{
 
   //localizar PosPago: devolve o assinante do tipo pré-pago registrado no vetor posPagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PosPago localizarPosPago(long cpf){
-    pospago cade vc
+    for(int i = 0; i < numPosPagos; i++){
+      if(posPagos[i].getCpf() == cpf){
+        return posPagos[i];
+      }
+    }
+        return null;
 
   }
 
