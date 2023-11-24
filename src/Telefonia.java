@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Telefonia{
+  Scanner entrada = new Scanner(System.in);
 
   //atributos
   private static PrePago prePagos; //representa os assinantes pré-pagos cadastrados
@@ -19,7 +20,6 @@ public class Telefonia{
 
   //Cadastrar assinante: o sistema deverá solicitar o tipo de assinante, pré-pago ou pós-pago. Depois solicitar os dados do assinante específico;
   private void cadastrarAssinante(){
-    Scanner entrada = new Scanner(System.in);
     String nome;
     long cpf;
     int opcao, numero;
@@ -97,31 +97,65 @@ public class Telefonia{
     }
   }
 
-  //Fazer chamada: o sistema deverá solicitar o tipo de assinante e seu CPF. Depois solicitar os dados da chamada, data e duração
+  //Fazer chamada: o sistema deve solicitar o tipo de assinante e seu CPF. Caso o assinante seja localizado,o sistema deve solicitar duração e data da chamada e registrar a chamada para o assinante através do método fazerChamada() de Pre Pago ou PosPago. Se o assinante não for localizado, exibir mensagem
   private void fazerChamada(){
+    int op, cpf, duracao;
+    //GregorianCalendar data ???
+
+    System.out.println("\nTipos de assinatura");
+    System.out.println("1- Pré-pago \n2- Pós-pago");
+
+    //solicitar tipo de assinante
+    do{
+      System.out.print("Opção: ");
+      op = entrada.nextInt(); 
+    } while( op != 1 && op != 2);  //repete até que o usuário insira um valor válido
+
+    //solicitar cpf
+    System.out.println("\nCPF do assinante: ");
+    cpf = entrada.nextInt();
+
+    //localizar assinante
+    if (op == 1 && localizarPrePago(cpf) != NULL){
+      //fazer chamada pre-paga
+      PrePago loc = localizarPrePago(cpf);
+
+      System.out.println("Data da chamada: ");
+      //data = entrada.nextGregorianCalendar;
+
+      System.out.println("Duração da chamada: ")
+
+    }
+    else if(op == 2 && localizarPosPago(cpf) != NULL){
+      //fazer chamada pos-paga
+
+    }
+    else{ //se nao encontrar...
+     //...exibir mensagem apropriada
+     System.out.println("Assinante com cpf " + cpf + "não localizado no sistema!");
+    }
 
   }
 
   //Fazer recarga: o sistema deverá solicitar o CPF de um assinante pré-pago. Depois solicitar a data e o valor da recarga
   private void fazerRecarga(){
-
+    dez reais por favor
   }
 
   //localizar PrePago: devolve o assinante do tipo pré-pago registrado no vetor prePagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PrePago localizarPrePago(long cpf){
-
+    prepago cade vc
 
   }
 
   //localizar PosPago: devolve o assinante do tipo pré-pago registrado no vetor posPagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PosPago localizarPosPago(long cpf){
-
+    pospago cade vc
 
   }
 
   //Imprimir faturas: o sistema deverá solicitar o mês e imprimir todas as faturas dos assinantes pré-pagos e pós-pagos;
   private void imprimirFaturas(){
-    Scanner entrada = new Scanner(System.in);
     int mes;
 
     //exibir os meses com seus numeros correspondentes
