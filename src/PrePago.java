@@ -1,9 +1,5 @@
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
-
 public class PrePago extends Assinante {
     private Chamada[] chamadas;
     private int numRecargas;
