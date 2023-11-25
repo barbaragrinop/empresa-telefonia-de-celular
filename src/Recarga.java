@@ -1,5 +1,3 @@
-public class Recarga{
-    
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 
@@ -25,5 +23,4 @@ public class Recarga {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return "Data: " + sdf.format(data) + " | Valor: R$" + valor;
     }
-}
 }
