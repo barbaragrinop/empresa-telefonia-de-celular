@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class PosPago extends Assinante {
@@ -28,17 +30,27 @@ public class PosPago extends Assinante {
 
     public void imprimirFatura(int mes) {
 
-        System.out.println("CPF: " + this.cpf);
-        System.out.println("Nome: " + this.nome);
-        System.out.println("Número de telefone: " + this.numeroTelefone);
+        float totalCusto = 0;
+        SimpleDateFormat formato = new SimpleDateFormat(
+                "dd/MM/yyyy");
 
-        for (Chamada chamada : this.chamadas) {
-            System.out.println("Data: " + chamada.getData());
-            System.out.println("Duração: " + chamada.getDuracao());
-            System.out.println("Valor: " + chamada.getValor());
+        if (numChamadas <= 0) {
+            System.out.println("Fatura do mês " + mes + ": " + assinatura);
+        } else {
+            for (int i = 0; i < numChamadas; i++) {
+                if (chamadas[i] != null && chamadas[i].getData().get(Calendar.MONTH) == mes) {
+                    System.out.println("Duração: " + chamadas[i].getDuracao());
+                    System.out.println("Custo: " + chamadas[i].getDuracao() * 1.04);
+                    System.out.println("Data: " + formato.format(chamadas[i].getData().getTime()));
+                    totalCusto += chamadas[i].getDuracao() * 1.04;
+                }
+
+            }
+
+            System.out.println("Valor total da fatura: " + (totalCusto + assinatura));
+            System.out.println("Dados do assinante: " + this.toString());
+            
         }
 
-        double valorTotal = this.assinatura + this.custoLigacoes;
-        System.out.println("Valor total: " + valorTotal);
     }
 }
