@@ -13,6 +13,15 @@ public class Assinante {
         this.chamadas = new Chamada[numChamadas];
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+
     public long getCpf(){
         return cpf;
     }
