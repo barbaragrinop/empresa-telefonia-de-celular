@@ -20,11 +20,15 @@ public class PosPago extends Assinante {
     }
 
     public void fazerChamada(GregorianCalendar data, int duracao) {
-        if (numChamadas < chamadas.length) {
-            chamadas[numChamadas] = new Chamada(data, duracao);
-            numChamadas++;
+        if (this.chamadas.length == this.numChamadas) {
+            System.out.println("Não é possível realizar uma chamada.");
         } else {
-            System.out.println("Não há espaço para mais chamadas.");
+            for (int i = 0; i <= numChamadas; i++) {
+                if (this.chamadas[i] == null) {
+                    this.chamadas[i] = new Chamada(data, duracao);
+                }
+            }
+            this.numChamadas++;
         }
     }
 
@@ -49,7 +53,7 @@ public class PosPago extends Assinante {
 
             System.out.println("Valor total da fatura: " + (totalCusto + assinatura));
             System.out.println("Dados do assinante: " + this.toString());
-            
+
         }
 
     }
