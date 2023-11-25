@@ -9,7 +9,8 @@ public class Assinante {
         this.cpf = cpf;
         this.nome = nome;
         this.numero = numero;
-        this.chamadas = new Chamada[numChamadas];
+        this.chamadas = new Chamada[10];
+        this.numChamadas = 0;
     }
 
     public String getNome() {
