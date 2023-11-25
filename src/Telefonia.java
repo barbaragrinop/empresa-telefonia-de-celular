@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 
@@ -108,7 +109,6 @@ public class Telefonia {
   // e registrar a chamada para o assinante através do método fazerChamada() de
   // Pre Pago ou PosPago. Se o assinante não for localizado, exibir mensagem
   private void fazerChamada() {
-    GregorianCalendar data = new GregorianCalendar();
     int opcao, duracao;
     long cpf;
 
@@ -126,20 +126,20 @@ public class Telefonia {
     System.out.println("Duração da chamada: ");
     duracao = entrada.nextInt();
     System.out.println("Informe a data da chamada");
-    data = retornaData();
+    GregorianCalendar dataFuncao = retornaData();
 
     // localizar assinante
     if (opcao == 1 && this.localizarPrePago(cpf) != null) {
 
       // fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
-      System.out.println(localizado.fazerChamada(data, duracao));
+      localizado.fazerChamada(dataFuncao, duracao);
 
     } else if (opcao == 2 && this.localizarPosPago(cpf) != null) {
 
       // fazer chamada pos-paga
       PosPago localizado = this.localizarPosPago(cpf);
-      localizado.fazerChamada(data, duracao);
+      localizado.fazerChamada(dataFuncao, duracao);
 
     } else { // se nao encontrar...
       // ...exibir mensagem apropriada
@@ -225,6 +225,8 @@ public class Telefonia {
         // exibir metodo imprimirFatura dos assinantes prePagos no mes inserido
         this.prePagos[i].imprimirFatura(mes);
         System.out.println("\n");
+        System.out.println(" ================================================================================ ");
+        System.out.println("\n");
       }
     } else {
       System.out.println("Não há assinantes pré-pago cadastros.\n");
@@ -238,6 +240,8 @@ public class Telefonia {
       for (int i = 0; i < numPosPagos; i++) {
         // exibir método imprimirFatura dos assinantes posPagos no mes inserido
         this.posPagos[i].imprimirFatura(mes);
+        System.out.println("\n");
+        System.out.println(" ================================================================================ ");
         System.out.println("\n");
       }
     } else {
@@ -259,7 +263,7 @@ public class Telefonia {
 
       // exibir repetidamene o menu de opções
       do {
-        System.out.println("Menu Telefonia: \n");
+        System.out.println("\n\nMenu Telefonia: \n");
         System.out.println("1- Cadastrar assinante");
         System.out.println("2- Listar assinantes");
         System.out.println("3- Fazer chamada");
@@ -301,7 +305,7 @@ public class Telefonia {
 
   public GregorianCalendar retornaData(){
     int dia, mes, ano;
-    
+
     System.out.println("Dia: ");
     dia = entrada.nextInt();
     System.out.println(" ");
@@ -312,9 +316,56 @@ public class Telefonia {
     } while (mes < 1 || mes > 12); // ...enquanto a resposta nao for valida
     System.out.println("\nAno: ");
     ano = entrada.nextInt();
-
-    return new GregorianCalendar(ano, mes, dia);
+    int mesIndexado = pegaMesIndexado(mes);
+    GregorianCalendar calendar = new GregorianCalendar(ano, mes - 1 , dia);
+    return calendar;
   }
+
+
+  public int pegaMesIndexado(int mes){
+      switch (mes) {
+          case 1 -> {
+              return Calendar.JANUARY;
+          }
+          case 2 -> {
+              return Calendar.FEBRUARY;
+          }
+          case 3 -> {
+              return Calendar.MARCH;
+          }
+          case 4 -> {
+              return Calendar.APRIL;
+          }
+          case 5 -> {
+              return Calendar.MAY;
+          }
+          case 6 -> {
+              return Calendar.JUNE;
+          }
+          case 7 -> {
+              return Calendar.JULY;
+          }
+          case 8 -> {
+              return Calendar.AUGUST;
+          }
+          case 9 -> {
+              return Calendar.SEPTEMBER;
+          }
+          case 10 -> {
+              return Calendar.OCTOBER;
+          }
+          case 11 -> {
+              return Calendar.NOVEMBER;
+          }
+          case 12 -> {
+              return Calendar.DECEMBER;
+          }
+          default -> {
+            return -1;
+          }
+      }
+  }
+
 
   public void exibirMeses(){
     System.out.println("1 - Janeiro");
