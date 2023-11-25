@@ -153,6 +153,7 @@ public class Telefonia {
   // através do método recarregar() da classe PrePago. Se o assinante não for
   // localizado, exibir uma mensagem apropriada;
   private void fazerRecarga() {
+    GregorianCalendar data = new GregorianCalendar();
     float valor;
     long cpf;
 
@@ -162,13 +163,14 @@ public class Telefonia {
 
     // localizar assinante
     if (this.localizarPrePago(cpf) != null) {
-      // solicitar valor da recarga
-      System.out.println("Valor da recarga: ");
+      System.out.println("Informe a data da recarga");
+      data = retornaData();
+      System.out.println("\nValor da recarga: ");
       valor = entrada.nextFloat();
 
       // fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
-      //localizado.recarregar(data, valor);
+      localizado.recarregar(data, valor);
     } else { // se nao encontrar...
       // ...exibir mensagem apropriada
       System.out.println("Assinante pré-pago com cpf '" + cpf + "' não localizado no sistema!");
@@ -207,20 +209,7 @@ public class Telefonia {
   private void imprimirFaturas() {
     int mes;
 
-    // exibir os meses com seus numeros correspondentes
-    System.out.println("1 - Janeiro");
-    System.out.println("2 - Fevereiro");
-    System.out.println("3 - Março");
-    System.out.println("4 - Abril");
-    System.out.println("5 - Maio");
-    System.out.println("6 - Junho");
-    System.out.println("7 - Julho");
-    System.out.println("8 - Agosto");
-    System.out.println("9 - Setembro");
-    System.out.println("10 - Outubro");
-    System.out.println("11 - Novembro");
-    System.out.println("12 - Dezembro\n");
-
+    exibirMeses();
     // solicitar o mes desejado...
     do {
       System.out.print("Mês da fatura desejada: ");
@@ -315,11 +304,30 @@ public class Telefonia {
     
     System.out.println("Dia: ");
     dia = entrada.nextInt();
-    System.out.println("Mês: ");
-    mes = entrada.nextInt();
-    System.out.println("Ano: ");
+    System.out.println(" ");
+    exibirMeses();
+    do {
+      System.out.print("Mês: ");
+      mes = entrada.nextInt();
+    } while (mes < 1 || mes > 12); // ...enquanto a resposta nao for valida
+    System.out.println("\nAno: ");
     ano = entrada.nextInt();
 
     return new GregorianCalendar(ano, mes, dia);
+  }
+
+  public void exibirMeses(){
+    System.out.println("1 - Janeiro");
+    System.out.println("2 - Fevereiro");
+    System.out.println("3 - Março");
+    System.out.println("4 - Abril");
+    System.out.println("5 - Maio");
+    System.out.println("6 - Junho");
+    System.out.println("7 - Julho");
+    System.out.println("8 - Agosto");
+    System.out.println("9 - Setembro");
+    System.out.println("10 - Outubro");
+    System.out.println("11 - Novembro");
+    System.out.println("12 - Dezembro\n");
   }
 }
