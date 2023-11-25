@@ -20,7 +20,9 @@ public class Chamada {
 
     @Override
     public String toString(){
+        //Cria um objeto da classe SimpleDateFormat para formatar a data no padrão "dia/mes/ano"
         SimpleDateFormat formatacao = new SimpleDateFormat("dd/MM/yyyy");
+        //Método format é chamado e formata a data como uma string no formato especificado
         String dataFormatada = formatacao.format(data);
 
         return "Chamada{" +
