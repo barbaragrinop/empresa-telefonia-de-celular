@@ -53,11 +53,6 @@ public class Telefonia{
     numero = entrada.nextLong();
 
     if(opcao == 1){ //se opcao == prePago...
-      //...solicitar dado específico de assinantes pre-pagos
-      // float creditos;
-      // System.out.println("Quantidade de créditos: ");
-			// creditos = s.nextFloat();
-
       //armazenar um objeto do tipo apropriado no vetor correspondente
       prePagos[numPrePagos] = new PrePago(cpf, nome, numero);
 
@@ -153,9 +148,29 @@ public class Telefonia{
     }
   }
 
-  //Fazer recarga: o sistema deverá solicitar o CPF de um assinante pré-pago. Depois solicitar a data e o valor da recarga
+  //Fazer recarga: o sistema deverá solicitar o CPF de um assinante pré-pago, caso assinante seja localizado através do método localizarPrePago(), o sistema deve solicitar o valor e a data da recarga e registrar a recarga através do método recarregar()  da  classe PrePago.  Se o assinante não for localizado, exibir uma mensagem apropriada;
   private void fazerRecarga(){
-    dez reais por favor
+    float valor;
+    long cpf;
+
+    //solicitar cpf
+    System.out.println("\nCPF do assinante pré-pago: ");
+    cpf = entrada.nextLong();
+
+    //localizar assinante
+    if (this.localizarPrePago(cpf) != NULL){
+      //solicitar valor da recarga
+      System.out.println("Valor da recarga: ");
+      valor = entrada.nextFloat();
+
+      //fazer chamada pre-paga
+      PrePago localizado = this.localizarPrePago(cpf);
+      System.out.println(localizado.recarregar(data, valor));
+    }
+    else{ //se nao encontrar...
+     //...exibir mensagem apropriada
+     System.out.println("Assinante pré-pago com cpf " + cpf + "não localizado no sistema!");
+    }
   }
 
   //localizar PrePago: devolve o assinante do tipo pré-pago registrado no vetor prePagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
