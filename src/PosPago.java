@@ -1,5 +1,4 @@
-public class PosPago{
-    public class PosPago extends Assinante{
+public class PosPago extends Assinante{
 
         private float assinatura; 
     
@@ -39,4 +38,4 @@ public class PosPago{
             double valorTotal = this.assinatura + this.custoLigacoes;
             System.out.println("Valor total: " + valorTotal);
           }
-          
+}
