@@ -1,12 +1,14 @@
 import java.util.Scanner;
+import java.util.GregorianCalendar;
 
 public class Telefonia{
   Scanner entrada = new Scanner(System.in);
+  GregorianCalendar data = new GregorianCalendar();
 
   //atributos
-  private static PrePago prePagos; //representa os assinantes pré-pagos cadastrados
-  private static PosPago posPagos; //representa os assinantes pós-pagos cadastrados
-  private static int numPrePagos, numPosPagos; //representam a quantidade de assinantes pré-pagos e pós-pagos
+  private PrePago[] prePagos; //representa os assinantes pré-pagos cadastrados
+  private PosPago[] posPagos; //representa os assinantes pós-pagos cadastrados
+  private int numPrePagos, numPosPagos; //representam a quantidade de assinantes pré-pagos e pós-pagos
 
   //construtor -> instanciar os vetores prePagos e posPagos
   public Telefonia(){
@@ -21,8 +23,8 @@ public class Telefonia{
   //Cadastrar assinante: o sistema deverá solicitar o tipo de assinante, pré-pago ou pós-pago. Depois solicitar os dados do assinante específico;
   private void cadastrarAssinante(){
     String nome;
-    long cpf;
-    int opcao, numero;
+    long cpf, numero;
+    int opcao;
 
     //solicitar tipo de assinante
     do{
@@ -44,14 +46,28 @@ public class Telefonia{
     
     //solicitar os dados do assinante, caso seja possível cadastrar
     System.out.print("\nNome do assinante: ");
-    nome = entrada.next();
+    nome = entrada.nextLine();
     System.out.print("CPF do assinante: ");
     cpf = entrada.nextLong();
-    System.out.print("Número do assinante: ");
-    numero = entrada.next();
+    System.out.print("Número de telefone do assinante: ");
+    numero = entrada.nextLong();
 
-    if(opcao == 2){ //se opção == posPago
-      //solicitar dado específico de assinantes pos-pagos
+    if(opcao == 1){ //se opcao == prePago...
+      //...solicitar dado específico de assinantes pre-pagos
+      // float creditos;
+      // System.out.println("Quantidade de créditos: ");
+			// creditos = s.nextFloat();
+
+      //armazenar um objeto do tipo apropriado no vetor correspondente
+      prePagos[numPrePagos] = new PrePago(cpf, nome, numero);
+
+      //incrementar o número de assinantes cadastrados deste tipo
+      this.numPrePagos++;
+
+      System.out.println("Cadastro realizado.\n");
+    }
+    else{ //se opção == posPago...
+      //...solicitar dado específico de assinantes pos-pagos
       float assinatura;
       System.out.print("Valor da assinatura: ");
       assinatura = entrada.nextFloat();
@@ -60,14 +76,9 @@ public class Telefonia{
       posPagos[numPosPagos] = new PosPago(nome, cpf, numero, assinatura);
 
       //incrementar o número de assinantes cadastrados deste tipo
-      numPosPagos++;
-    }
-    else{ //se opção == prePago
-      //armazenar um objeto do tipo apropriado no vetor correspondente
-      prePagos[numPrePagos] = new PrePago(nome, cpf, numero);
+      this.numPosPagos++;
 
-      //incrementar o número de assinantes cadastrados deste tipo
-      numPrePagos++;
+      System.out.println("Cadastro realizado.\n");
     }
   }
 
@@ -75,66 +86,71 @@ public class Telefonia{
   private void listarAssinantes()
   {
     //lista de assinantes pre pagos, caso exista algum cadastrado
-    if(numPrePagos > 0){
+    if(this.numPrePagos > 0){
       System.out.println("Assinantes do tipo pré-pago: ");
 
       //percorrer o vetor de assinantes pre-pagos
-      for (int i = 0; i < numPrePagos; i++){
+      for (int i = 0; i < this.numPrePagos; i++){
         //exibir metodo toString do objeto prePago
-        System.out.println((i+1) + " - " + prePagos[i].toString() + ";");
+        System.out.println((i+1) + " - " + this.prePagos[i].toString() + ";\n");
       }
+    }
+    else{
+        System.out.println("Não há assinantes pré-pago cadastrados.\n");
     } 
 
     //lista de assinantes pos pagos, caso exista algum cadastrado
-    if(numPosPagos > 0){
+    if(this.numPosPagos > 0){
       System.out.println("\nAssinantes do tipo pos-pago: ");
 
       //percorrer o vetor de assinantes pos-pagos
-      for (int i = 0; i < numPosPagos; i++){
+      for (int i = 0; i < this.numPosPagos; i++){
         //exibir método toString do objeto posPago
-        System.out.println((i+1) + " - " + posPagos[i].toString() + ";");
+        System.out.println((i+1) + " - " + this.posPagos[i].toString() + ";\n");
       }
+    }
+    else{
+      System.out.println("Não há assinantes pós-pago cadastrados.\n");
     }
   }
 
   //Fazer chamada: o sistema deve solicitar o tipo de assinante e seu CPF. Caso o assinante seja localizado,o sistema deve solicitar duração e data da chamada e registrar a chamada para o assinante através do método fazerChamada() de Pre Pago ou PosPago. Se o assinante não for localizado, exibir mensagem
   private void fazerChamada(){
-    int op, cpf, duracao;
-    //GregorianCalendar data ???
-
+    int opcao, duracao;
+    long cpf;
+    
     System.out.println("\nTipos de assinatura");
     System.out.println("1- Pré-pago \n2- Pós-pago");
 
     //solicitar tipo de assinante
     do{
       System.out.print("Opção: ");
-      op = entrada.nextInt(); 
-    } while( op != 1 && op != 2);  //repete até que o usuário insira um valor válido
+      opcao = entrada.nextInt(); 
+    } while( opcao != 1 && opcao != 2);  //repete até que o usuário insira um valor válido
 
     //solicitar cpf
     System.out.println("\nCPF do assinante: ");
-    cpf = entrada.nextInt();
+    cpf = entrada.nextLong();
+
+    //solicitar duracao
+    System.out.println("Duração da chamada: ");
+    duracao = entrada.nextInt();
 
     //localizar assinante
-    if (op == 1 && localizarPrePago(cpf) != NULL){
+    if (op == 1 && this.localizarPrePago(cpf) != NULL){
       //fazer chamada pre-paga
-      PrePago loc = localizarPrePago(cpf);
-
-      System.out.println("Data da chamada: ");
-      //data = entrada.nextGregorianCalendar;
-
-      System.out.println("Duração da chamada: ")
-
+      PrePago localizado = this.localizarPrePago(cpf);
+      System.out.println(localizado.fazerChamada(data, duracao));
     }
-    else if(op == 2 && localizarPosPago(cpf) != NULL){
+    else if(op == 2 && this.localizarPosPago(cpf) != NULL){
       //fazer chamada pos-paga
-
+      PosPago localizado = this.localizarPosPago(cpf);
+      System.out.println(localizado.fazerChamada(data, duracao));
     }
     else{ //se nao encontrar...
      //...exibir mensagem apropriada
      System.out.println("Assinante com cpf " + cpf + "não localizado no sistema!");
     }
-
   }
 
   //Fazer recarga: o sistema deverá solicitar o CPF de um assinante pré-pago. Depois solicitar a data e o valor da recarga
@@ -145,23 +161,23 @@ public class Telefonia{
   //localizar PrePago: devolve o assinante do tipo pré-pago registrado no vetor prePagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PrePago localizarPrePago(long cpf){
 
-    for(int i = 0; i < numPrePagos; i++){
-      if(prePagos[i].getCpf() == cpf){
-          return prePagos[i];
+    for(int i = 0; i < this.numPrePagos; i++){
+      if(this.prePagos[i].getCpf() == cpf){
+          return this.prePagos[i];
       }
     }
-          return null;
+    return null;
 
   }
 
   //localizar PosPago: devolve o assinante do tipo pré-pago registrado no vetor posPagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PosPago localizarPosPago(long cpf){
-    for(int i = 0; i < numPosPagos; i++){
-      if(posPagos[i].getCpf() == cpf){
-        return posPagos[i];
+    for(int i = 0; i < this.numPosPagos; i++){
+      if(this.posPagos[i].getCpf() == cpf){
+        return this.posPagos[i];
       }
     }
-        return null;
+    return null;
 
   }
 
@@ -185,30 +201,38 @@ public class Telefonia{
 
     //solicitar o mes desejado...
     do{
-      System.out.print("Mês da fatura: ");
+      System.out.print("Mês da fatura desejada: ");
       mes = entrada.nextInt();
     }while(mes < 1 || mes > 12); //...enquanto a resposta nao for valida
 
     //pre pagos
-    if(numPrePagos > 0){
-      System.out.println("\nAssinantes do tipo pré-pago: ");
+    System.out.println("\nAssinantes pré-pago: ");
 
+    if(this.numPrePagos > 0){
       //percorrer o vetor de assinantes pre-pagos
-      for (int i = 0; i < numPrePagos; i++){
+      for (int i = 0; i < this.numPrePagos; i++){
         //exibir metodo imprimirFatura dos assinantes prePagos no mes inserido
-        System.out.println("\n"+ prePagos[i].imprimirFatura(mes));
+        this.prePagos[i].imprimirFatura(mes);
+        System.out.println("\n");
       }
     } 
+    else{
+      System.out.println("Não há assinantes pré-pago cadastros.\n");
+    }
 
     //pos pagos
+    System.out.println("\nAssinantes pós-pago: ");
+    
     if(numPosPagos > 0){
-      System.out.println("\nAssinantes do tipo pos-pago: ");
-
       //percorrer o vetor de assinantes pos-pagos
       for (int i = 0; i < numPosPagos; i++){
         //exibir método imprimirFatura dos assinantes posPagos no mes inserido
-        System.out.println("\n" + posPagos[i].imprimirFatura(mes));
+        this.posPagos[i].imprimirFatura(mes);
+        System.out.println("\n");
       }
+    }
+    else{
+      System.out.println("Não há assinantes pós-pago cadastros.\n");
     }
   }
 
@@ -238,20 +262,21 @@ public class Telefonia{
 
       //invocar o método que o usuário escolher
       switch(op){
-        case 1: cadastrarAssinante();
+        case 1: tel.cadastrarAssinante();
             break;
-        case 2: listarAssinantes();
+        case 2: tel.listarAssinantes();
             break;
-        case 3: fazerChamada();
+        case 3: tel.fazerChamada();
             break;
-        case 4: fazerRecarga();
+        case 4: tel.fazerRecarga();
             break;
-        case 5: imprimirFaturas();
+        case 5: tel.imprimirFaturas();
             break;
         case 6:
+            System.out.println("Encerrando sistema.");
             break;
         default:
-            System.out.println("Opção inválida!");
+            System.out.println("Opção inválida!\n");
             break;
       }
 
