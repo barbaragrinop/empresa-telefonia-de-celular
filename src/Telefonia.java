@@ -23,8 +23,8 @@ public class Telefonia{
   //Cadastrar assinante: o sistema deverá solicitar o tipo de assinante, pré-pago ou pós-pago. Depois solicitar os dados do assinante específico;
   private void cadastrarAssinante(){
     String nome;
-    long cpf, numero;
-    int opcao;
+    long cpf;
+    int opcao, numero;
 
     //solicitar tipo de assinante
     do{
@@ -50,7 +50,7 @@ public class Telefonia{
     System.out.print("CPF do assinante: ");
     cpf = entrada.nextLong();
     System.out.print("Número de telefone do assinante: ");
-    numero = entrada.nextLong();
+    numero = entrada.nextInt();
 
     if(opcao == 1){ //se opcao == prePago...
       //armazenar um objeto do tipo apropriado no vetor correspondente
@@ -68,7 +68,7 @@ public class Telefonia{
       assinatura = entrada.nextFloat();
 
       //armazenar um objeto do tipo apropriado no vetor correspondente
-      posPagos[numPosPagos] = new PosPago(nome, cpf, numero, assinatura);
+      posPagos[numPosPagos] = new PosPago(cpf, nome, numero, assinatura);
 
       //incrementar o número de assinantes cadastrados deste tipo
       this.numPosPagos++;
@@ -132,12 +132,12 @@ public class Telefonia{
     duracao = entrada.nextInt();
 
     //localizar assinante
-    if (op == 1 && this.localizarPrePago(cpf) != NULL){
+    if (opcao == 1 && this.localizarPrePago(cpf) != NULL){
       //fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
       System.out.println(localizado.fazerChamada(data, duracao));
     }
-    else if(op == 2 && this.localizarPosPago(cpf) != NULL){
+    else if(opcao == 2 && this.localizarPosPago(cpf) != NULL){
       //fazer chamada pos-paga
       PosPago localizado = this.localizarPosPago(cpf);
       System.out.println(localizado.fazerChamada(data, duracao));
@@ -165,7 +165,7 @@ public class Telefonia{
 
       //fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
-      System.out.println(localizado.recarregar(data, valor));
+      localizado.recarregar(data, valor);
     }
     else{ //se nao encontrar...
      //...exibir mensagem apropriada
@@ -188,7 +188,7 @@ public class Telefonia{
   //localizar PosPago: devolve o assinante do tipo pré-pago registrado no vetor posPagos que possuir o CPF igual ao fornecido como argumento Caso o assinante não seja localizado, o método devolve null;
   private PosPago localizarPosPago(long cpf){
     for(int i = 0; i < this.numPosPagos; i++){
-      if(this.posPagos[i].getCpf() == cpf){
+      if(this.posPagos[i].getCPF() == cpf){
         return this.posPagos[i];
       }
     }
@@ -256,7 +256,7 @@ public class Telefonia{
   public static void main(String[] args){
     
     //instanciar um objeto da classe telefonia
-    public tel = new Telefonia();
+    Telefonia tel = new Telefonia();
     
     Scanner entrada = new Scanner(System.in);
 
