@@ -157,8 +157,10 @@ public class Telefonia {
     if (this.localizarPrePago(cpf) != null) {
       System.out.println("Informe a data da recarga");
       data = retornaData();
+      do{
       System.out.println("\nValor da recarga: ");
       valor = entrada.nextFloat();
+      } while(valor <= 0);
 
       // fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
@@ -193,8 +195,9 @@ public class Telefonia {
   private void imprimirFaturas() {
     int mes = exibirMeses();
 
+    System.out.println("\n ====================================FATURA==================================== ");
     // pre pagos
-    System.out.println("\nAssinantes pré-pago: ");
+    System.out.println("\nASSINANTES PRÉ-PAGOS: ");
 
     if (this.numPrePagos > 0) {
       // percorrer o vetor de assinantes pre-pagos
@@ -210,19 +213,16 @@ public class Telefonia {
     }
 
     // pos pagos
-    System.out.println("\nAssinantes pós-pago: ");
+    System.out.println("ASSINANTES PÓS-PAGOS: ");
 
     if (numPosPagos > 0) {
       // percorrer o vetor de assinantes pos-pagos
       for (int i = 0; i < numPosPagos; i++) {
         // exibir método imprimirFatura dos assinantes posPagos no mes inserido
         this.posPagos[i].imprimirFatura(mes);
-        System.out.println("\n");
-        System.out.println(" ================================================================================ ");
-        System.out.println("\n");
       }
     } else {
-      System.out.println("Não há assinantes pós-pago cadastros.\n");
+      System.out.println("Não há assinantes pós-pago cadastros.");
     }
   }
 

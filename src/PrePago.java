@@ -19,12 +19,12 @@ public class PrePago extends Assinante {
 
         if (this.numChamadas >= this.chamadas.length) { //verifica se ainda tem espaço para fazer chamada
             // Não há espaço
-            System.out.println("Não há espaço para registrar a chamada.");
+            System.out.println("\nNão há espaço para registrar a chamada.");
             return 0f;
         }
 
         if(duracao * 1.45 > this.creditos){
-            System.out.println("Saldo insuficiente para fazer chamada.");
+            System.out.println("\nSaldo insuficiente para fazer chamada.");
             System.out.println("Recarregue seu pré-pago.");
             return 0f;
         }
@@ -34,7 +34,7 @@ public class PrePago extends Assinante {
                 Chamada chamada = new Chamada(data, duracao);
                 this.chamadas[i] = chamada;
                 this.creditos -= duracao * 1.45f;
-                System.out.println("Chamada realizada com sucesso");
+                System.out.println("\nChamada realizada com sucesso!");
             }
         }
 
@@ -46,14 +46,14 @@ public class PrePago extends Assinante {
 
     public void recarregar(GregorianCalendar data, float valor){
         if(numRecargas >= this.recargas.length){ //verifica se tem espaço no vetor de chamadas
-            System.out.println("Não há espaço para novas recargas.");
+            System.out.println("\nNão há espaço para novas recargas.");
         } else {
             for(int i = 0; i <= numRecargas; i++){ //percorre as chamdas que tem até agora
                if(recargas[i] == null){ //a primeira que for nula
                    Recarga recarga = new Recarga(data, valor);
                    this.recargas[i] = recarga;
                    this.creditos+=valor;
-                   System.out.println("Recarga realizada com sucesso!.");
+                   System.out.println("\nRecarga realizada com sucesso!.");
                }
             }
             this.numRecargas++; //incrementa as recargas;
@@ -70,7 +70,7 @@ public class PrePago extends Assinante {
         if(this.numChamadas <= 0){
             System.out.println("Não houveram chamadas");
         } else {
-            System.out.println("========== DADOS CHAMADA ==========");
+            System.out.println("========== DADOS CHAMADAS ==========");
             for(int c = 0; c <= this.numChamadas; c++){
                 if (this.chamadas[c] != null && this.chamadas[c].getData().get(GregorianCalendar.MONTH) == (mes - 1)) {
                     System.out.println("Data da chamada: " + dataFormato.format(this.chamadas[c].getData().getTime()));
@@ -85,7 +85,7 @@ public class PrePago extends Assinante {
         if(this.numRecargas <= 0){
             System.out.println("Não houveram recargas");
         } else {
-            System.out.println("\n\n========== DADOS RECARGA ==========");
+            System.out.println("\n========== DADOS RECARGA ==========");
             for(int r = 0; r <= this.numRecargas; r++){
                 if (this.recargas[r] != null && this.recargas[r].getData().get(GregorianCalendar.MONTH) == (mes - 1)) {
                     System.out.println("\nData da recarga: " + dataFormato.format(this.recargas[r].getData().getTime()));
