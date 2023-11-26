@@ -28,7 +28,7 @@ public class Recarga {
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         // sobrescreve o método toString() padrão
-        // retorna uma representação formatada do objeto recarga
+        // retorna uma representação formatada do objeto recarga.
         return "Data: " + sdf.format(data) + " | Valor: R$" + valor;
     }
 }
