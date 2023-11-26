@@ -43,6 +43,12 @@ public class Telefonia {
       System.out.print("\nCPF do assinante: ");
       cpf = entrada.nextLong();
 
+      while (!validaCPF(cpf)) {
+        System.out.println("CPF INVÁLIDO! Insira um CPF válido");
+        System.out.print("\nCPF do assinante: ");
+        cpf = entrada.nextLong();
+      }
+
       //validar se ja ha assinante com cpf inserido
       if ((opcao == 1 && this.localizarPrePago(cpf) == null) || (opcao == 2 && this.localizarPosPago(cpf) == null)) {
 
@@ -342,5 +348,36 @@ public class Telefonia {
     } while (resposta < 1 || resposta > 12); // ...enquanto a resposta nao for valida
 
     return resposta;
+  }
+
+  public static boolean validaCPF(long cpf) {
+    String cpfStr = String.valueOf(cpf);
+
+    // Verifica se o CPF tem 11 dígitos
+    if (cpfStr.length() != 11) {
+      return false;
+    }
+
+    // Verifica se todos os dígitos são iguais (caso contrário, o CPF é inválido)
+    if (cpfStr.chars().allMatch(c -> c == cpfStr.charAt(0))) {
+      return false;
+    }
+
+    // Calcula o primeiro dígito verificador
+    int digito1 = calculaDigito(cpfStr.substring(0, 9), 10);
+    // Calcula o segundo dígito verificador
+    int digito2 = calculaDigito(cpfStr.substring(0, 9) + digito1, 11);
+
+    // Verifica se os dígitos calculados são iguais aos dígitos informados no CPF
+    return cpfStr.endsWith(String.valueOf(digito1) + String.valueOf(digito2));
+  }
+
+  private static int calculaDigito(String str, int peso) {
+    int total = 0;
+    for (int i = 0; i < str.length(); i++) {
+      total += Integer.parseInt(String.valueOf(str.charAt(i))) * peso--;
+    }
+    int resto = total % 11;
+    return (resto < 2) ? 0 : 11 - resto;
   }
 }
