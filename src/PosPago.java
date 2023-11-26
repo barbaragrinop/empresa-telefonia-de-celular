@@ -29,7 +29,6 @@ public class PosPago extends Assinante {
             }
             this.numChamadas++;
             System.out.println("Chamada concluída com sucesso.");
-
         }
     }
 
@@ -43,7 +42,6 @@ public class PosPago extends Assinante {
 
         if (this.numChamadas <= 0) {
             System.out.println("Não houveram chamadas");
-            // System.out.println("Fatura do mês " + mes + ": " + assinatura);
         } else {
             System.out.println("========== DADOS CHAMADAS ==========");
             for (int i = 0; i < this.numChamadas; i++) {
