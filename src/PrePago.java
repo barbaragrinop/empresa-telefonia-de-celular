@@ -1,8 +1,5 @@
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class PrePago extends Assinante {
     private Chamada[] chamadas;
@@ -27,13 +24,13 @@ public class PrePago extends Assinante {
             return 0f;
         }
 
-        if(duracao * 1.45 > this.creditos){
+        if(duracao * 1.45 > this.creditos){ //verifica se tem espaço suficiente
             System.out.println("Saldo insuficiente para fazer chamada.");
             System.out.println("Recarregue seu pré-pago.");
             return 0f;
         }
 
-        for(int i = 0; i <= this.numChamadas; i++) {
+        for(int i = 0; i <= this.numChamadas; i++) { //percorre até achar o último e insere lá
             if(this.chamadas[i] == null){
                 Chamada chamada = new Chamada(data, duracao);
                 this.chamadas[i] = chamada;
@@ -76,7 +73,7 @@ public class PrePago extends Assinante {
         } else {
             System.out.println("========== DADOS CHAMADA ==========");
             for(int c = 0; c <= this.numChamadas; c++){
-                if (this.chamadas[c] != null && this.chamadas[c].getData().get(GregorianCalendar.MONTH) == (mes - 1)) {
+                if (this.chamadas[c] != null && this.chamadas[c].getData().get(GregorianCalendar.MONTH) == (mes - 1)) { //pega os que existem e faz a validação por mes
                     System.out.println("Data da chamada: " + dataFormato.format(this.chamadas[c].getData().getTime()));
                     System.out.println("Duração: " + this.chamadas[c].getDuracao());
                     System.out.println("Custo: " + this.chamadas[c].getDuracao() * 1.45);
@@ -103,7 +100,7 @@ public class PrePago extends Assinante {
     }
 
 
-    public String pegaNomeMesPorNumero(int numero){
+    public String pegaNomeMesPorNumero(int numero){ //função para deixar mais apresentável a fatura
         switch(numero) {
             case 1: return "Janeiro";
             case 2: return "Fevereiro";
