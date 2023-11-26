@@ -4,7 +4,9 @@ import java.util.GregorianCalendar;
 public class PosPago extends Assinante {
 
     private float assinatura;
-
+    
+    // chama o construtor da classe pai, passando os parâmetros cpf, nome e numero
+    // atribui o valor do parâmetro assinatura ao atributo assinatura
     public PosPago(long cpf, String nome, int numero, float assinatura) {
         super(cpf, nome, numero);
         this.assinatura = assinatura;
@@ -18,6 +20,14 @@ public class PosPago extends Assinante {
         this.assinatura = assinatura;
     }
 
+    // realiza uma chamada telefônica.
+    // verifica se o array de chamadas do assinante está cheio.
+    // se estiver, imprime uma mensagem de erro e retorna.
+
+    // itera sobre o array de chamadas.
+    // para cada posição do array, verifica se a posição está vazia.
+    // se a posição estiver vazia, cria uma nova instância da classe chamada e a adiciona à posição.
+    // incrementa o número de chamadas realizadas pelo assinante.
     public void fazerChamada(GregorianCalendar data, int duracao) {
         if (this.chamadas.length == this.numChamadas) {
             System.out.println("Não é possível realizar uma chamada.");
@@ -32,12 +42,15 @@ public class PosPago extends Assinante {
         }
     }
 
+    // imprime os dados do assinante
+    // verifica se houve chamadas no mês especificado
+    // se houver, imprime os dados das chamadas
+    // imprime o valor total da fatura
     public void imprimirFatura(int mes) {
 
         float totalCusto = 0;
         SimpleDateFormat dataFormato = new SimpleDateFormat("dd/MM/yyyy");
 
-        System.out.println("======");
         System.out.println("Dados do assinante: " + this.toString());
         System.out.println("Valor da assinatura: " + this.assinatura);
 
@@ -50,14 +63,14 @@ public class PosPago extends Assinante {
                     System.out.println("Data da chamada: " + dataFormato.format(this.chamadas[i].getData().getTime()));
                     System.out.println("Duração: " + this.chamadas[i].getDuracao() + " minutos;");
                     System.out.println("Custo: R$" + this.chamadas[i].getDuracao() * 1.45);
-                    totalCusto += this.chamadas[i].getDuracao() * 1.04;
+                    totalCusto += this.chamadas[i].getDuracao() * 1.45;
                 }
             }
 
             System.out.println("\nValor total das chamadas: R$" + totalCusto);
 
             totalCusto += this.assinatura;
-            System.out.println("\nValor total da fatura no mês de " + pegaNomeMesPorNumero(mes) + ": R$" + totalCusto + "\n");
+            System.out.println("\nValor total da fatura no mês de " + pegaNomeMesPorNumero(mes) + ": R$" + totalCusto);
         }
     }
 
