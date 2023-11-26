@@ -37,6 +37,7 @@ public class PosPago extends Assinante {
         float totalCusto = 0;
         SimpleDateFormat dataFormato = new SimpleDateFormat("dd/MM/yyyy");
 
+        System.out.println("======");
         System.out.println("Dados do assinante: " + this.toString());
         System.out.println("Valor da assinatura: " + this.assinatura);
 
@@ -49,14 +50,14 @@ public class PosPago extends Assinante {
                     System.out.println("Data da chamada: " + dataFormato.format(this.chamadas[i].getData().getTime()));
                     System.out.println("Duração: " + this.chamadas[i].getDuracao() + " minutos;");
                     System.out.println("Custo: R$" + this.chamadas[i].getDuracao() * 1.45);
-                    totalCusto += this.chamadas[i].getDuracao() * 1.45;
+                    totalCusto += this.chamadas[i].getDuracao() * 1.04;
                 }
             }
 
             System.out.println("\nValor total das chamadas: R$" + totalCusto);
 
             totalCusto += this.assinatura;
-            System.out.println("\nValor total da fatura no mês de " + pegaNomeMesPorNumero(mes) + ": R$" + totalCusto);
+            System.out.println("\nValor total da fatura no mês de " + pegaNomeMesPorNumero(mes) + ": R$" + totalCusto + "\n");
         }
     }
 

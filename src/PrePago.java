@@ -65,6 +65,7 @@ public class PrePago extends Assinante {
         float valorTotalRecargas=0, valorTotalChamadas=0;
         SimpleDateFormat dataFormato = new SimpleDateFormat("dd/MM/yyyy");
 
+        System.out.println("======");
         System.out.println("Dados do assinante: " + this.toString());
 
         if(this.numChamadas <= 0){

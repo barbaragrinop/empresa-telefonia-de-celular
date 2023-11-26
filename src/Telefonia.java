@@ -211,13 +211,14 @@ public class Telefonia {
       for (int i = 0; i < this.numPrePagos; i++) {
         // exibir metodo imprimirFatura dos assinantes prePagos no mes inserido
         this.prePagos[i].imprimirFatura(mes);
-        System.out.println("\n");
-        System.out.println(" ================================================================================ ");
-        System.out.println("\n");
       }
     } else {
       System.out.println("Não há assinantes pré-pago cadastros.\n");
     }
+
+    System.out.println("\n");
+    System.out.println(" ================================================================================ ");
+    System.out.println("\n");
 
     // pos pagos
     System.out.println("ASSINANTES PÓS-PAGOS: ");
