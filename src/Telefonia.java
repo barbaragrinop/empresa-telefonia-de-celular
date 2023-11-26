@@ -40,33 +40,40 @@ public class Telefonia {
       System.out.println("Não há mais espaço para cadastro de assinantes pós pagos!");
     } else {
       // solicitar os dados do assinante, caso seja possível cadastrar
-      System.out.print("\nNome do assinante: ");
-      nome = entrada.next();
-      System.out.print("CPF do assinante: ");
+      System.out.print("\nCPF do assinante: ");
       cpf = entrada.nextLong();
-      System.out.print("Número de telefone do assinante: ");
-      numero = entrada.nextInt();
 
-      if (opcao == 1) { // se opcao == prePago...
-        // armazenar um objeto do tipo apropriado no vetor correspondente
-        prePagos[numPrePagos] = new PrePago(cpf, nome, numero);
+      //validar se ja ha assinante com cpf inserido
+      if ((opcao == 1 && this.localizarPrePago(cpf) == null) || (opcao == 2 && this.localizarPosPago(cpf) == null)) {
 
-        // incrementar o número de assinantes cadastrados deste tipo
-        this.numPrePagos++;
+        System.out.print("Nome do assinante: ");
+        nome = entrada.next();
+        System.out.print("Número de telefone do assinante: ");
+        numero = entrada.nextInt();
 
-        System.out.println("Cadastro realizado.\n");
+        if (opcao == 1) { // se opcao == prePago...
+          // armazenar um objeto do tipo apropriado no vetor correspondente
+          prePagos[numPrePagos] = new PrePago(cpf, nome, numero);
+
+          // incrementar o número de assinantes cadastrados deste tipo
+          this.numPrePagos++;
+
+          System.out.println("Cadastro realizado.\n");
+        } else {
+          float assinatura;
+          System.out.print("Valor da assinatura: ");
+          assinatura = entrada.nextFloat();
+
+          // armazenar um objeto do tipo apropriado no vetor correspondente
+          posPagos[numPosPagos] = new PosPago(cpf, nome, numero, assinatura);
+
+          // incrementar o número de assinantes cadastrados deste tipo
+          this.numPosPagos++;
+
+          System.out.println("Cadastro realizado.\n");
+        }
       } else {
-        float assinatura;
-        System.out.print("Valor da assinatura: ");
-        assinatura = entrada.nextFloat();
-
-        // armazenar um objeto do tipo apropriado no vetor correspondente
-        posPagos[numPosPagos] = new PosPago(cpf, nome, numero, assinatura);
-
-        // incrementar o número de assinantes cadastrados deste tipo
-        this.numPosPagos++;
-
-        System.out.println("Cadastro realizado.\n");
+        System.out.println("\nCPF " + cpf + " já é assinante do tipo " + opcao);
       }
     }
   }
@@ -157,10 +164,10 @@ public class Telefonia {
     if (this.localizarPrePago(cpf) != null) {
       System.out.println("Informe a data da recarga");
       data = retornaData();
-      do{
-      System.out.println("\nValor da recarga: ");
-      valor = entrada.nextFloat();
-      } while(valor <= 0);
+      do {
+        System.out.println("\nValor da recarga: ");
+        valor = entrada.nextFloat();
+      } while (valor <= 0);
 
       // fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
@@ -237,7 +244,7 @@ public class Telefonia {
 
       // exibir repetidamene o menu de opções
       do {
-        System.out.println("\n\nMenu Telefonia: \n");
+        System.out.println("\n\n==========MENU==========");
         System.out.println("1- Cadastrar assinante");
         System.out.println("2- Listar assinantes");
         System.out.println("3- Fazer chamada");
