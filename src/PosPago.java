@@ -30,7 +30,6 @@ public class PosPago extends Assinante {
             }
             this.numChamadas++;
             System.out.println("Chamada concluída com sucesso.");
-
         }
     }
 
@@ -56,7 +55,6 @@ public class PosPago extends Assinante {
             System.out.println("Valor total da fatura: " + (totalCusto + assinatura));
             System.out.println("Dados do assinante: " + this.toString());
             System.out.println("Valor da assinatura: " +this.assinatura);
-
         }
 
     }
