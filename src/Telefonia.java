@@ -1,4 +1,3 @@
-import java.util.Calendar;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 
@@ -10,7 +9,7 @@ public class Telefonia {
   private PosPago[] posPagos; // representa os assinantes pós-pagos cadastrados
   private int numPrePagos, numPosPagos; // representam a quantidade de assinantes pré-pagos e pós-pagos
 
-  // construtor -> instanciar os vetores prePagos e posPagos
+  // construtor -> instancia os vetores prePagos e posPagos
   public Telefonia() {
     this.prePagos = new PrePago[10];
     this.posPagos = new PosPago[10];
@@ -20,8 +19,7 @@ public class Telefonia {
 
   // funções/metodos:
 
-  // Cadastrar assinante: o sistema deverá solicitar o tipo de assinante, pré-pago
-  // ou pós-pago. Depois solicitar os dados do assinante específico;
+  //cadastrar novo assinante no sistema, se houver espaço, solicitando o tipo e os dados dele
   private void cadastrarAssinante() {
     String nome;
     long cpf;
@@ -37,53 +35,68 @@ public class Telefonia {
 
     // conferir se é possível cadastrar o tipo de assinante solicitado
     if (opcao == 1 && numPrePagos >= prePagos.length) {
-      System.out.println("Não há mais espaço para cadastro de assinantes pré pagos!"); // exibir mensagem caso não seja
-                                                                                       // tenha mais espaço no vetor
+      System.out.println("Não há mais espaço para cadastro de assinantes pré pagos!"); 
+
     } else if (opcao == 2 && numPosPagos >= posPagos.length) {
       System.out.println("Não há mais espaço para cadastro de assinantes pós pagos!");
+
     } else {
+
       // solicitar os dados do assinante, caso seja possível cadastrar
-      System.out.print("\nNome do assinante: ");
-      nome = entrada.next();
-      System.out.print("CPF do assinante: ");
+      System.out.print("\nCPF do assinante: ");
       cpf = entrada.nextLong();
-      System.out.print("Número de telefone do assinante: ");
-      numero = entrada.nextInt();
 
-      if (opcao == 1) { // se opcao == prePago...
-        // armazenar um objeto do tipo apropriado no vetor correspondente
-        prePagos[numPrePagos] = new PrePago(cpf, nome, numero);
+      //continuar solicitando até que seja válido
+      while (!validaCPF(cpf)) {
+        System.out.println("CPF INVÁLIDO! \nInsira um CPF válido XXXXXXXXXXX");
+        System.out.print("\nCPF do assinante: ");
+        cpf = entrada.nextLong();
+      }
 
-        // incrementar o número de assinantes cadastrados deste tipo
-        this.numPrePagos++;
+      //validar se não há assinante com o cpf digitado
+      if ((opcao == 1 && this.localizarPrePago(cpf) == null) || (opcao == 2 && this.localizarPosPago(cpf) == null)) {
 
-        System.out.println("Cadastro realizado.\n");
-      } else { 
-        float assinatura;
-        System.out.print("Valor da assinatura: ");
-        assinatura = entrada.nextFloat();
+        System.out.print("Nome do assinante: ");
+        nome = entrada.next();
+        System.out.print("Número de telefone do assinante: ");
+        numero = entrada.nextInt();
 
-        // armazenar um objeto do tipo apropriado no vetor correspondente
-        posPagos[numPosPagos] = new PosPago(cpf, nome, numero, assinatura);
+        if (opcao == 1) { // se opcao == prePago...
+          // armazenar um objeto do tipo apropriado no vetor correspondente
+          prePagos[numPrePagos] = new PrePago(cpf, nome, numero);
 
-        // incrementar o número de assinantes cadastrados deste tipo
-        this.numPosPagos++;
+          this.numPrePagos++;
 
-        System.out.println("Cadastro realizado.\n");
+          System.out.println("Cadastro realizado.\n");
+        } else { // se opcao == posPago...
+          
+          //solicitar dado especifico
+          float assinatura;
+          System.out.print("Valor da assinatura: ");
+          assinatura = entrada.nextFloat();
+
+          // armazenar um objeto do tipo apropriado no vetor correspondente
+          posPagos[numPosPagos] = new PosPago(cpf, nome, numero, assinatura);
+
+          this.numPosPagos++;
+
+          System.out.println("Cadastro realizado.\n");
+        }
+      } else {
+        System.out.println("\nCPF " + cpf + " já é assinante do tipo " + opcao);
       }
     }
   }
 
-  // Listar assinantes: o sistema deverá listar os dados de todos os assinantes
-  // pré-pagos e pós-pagos cadastrados
+  //listar todos os assinantes cadastrados no sistema
   private void listarAssinantes() {
+
     // lista de assinantes pre pagos, caso exista algum cadastrado
     if (this.numPrePagos > 0) {
       System.out.println("Assinantes do tipo pré-pago: ");
 
       // percorrer o vetor de assinantes pre-pagos
       for (int i = 0; i < this.numPrePagos; i++) {
-        // exibir metodo toString do objeto prePago
         System.out.println((i + 1) + " - " + this.prePagos[i].toString() + ";\n");
       }
     } else {
@@ -96,7 +109,6 @@ public class Telefonia {
 
       // percorrer o vetor de assinantes pos-pagos
       for (int i = 0; i < this.numPosPagos; i++) {
-        // exibir método toString do objeto posPago
         System.out.println((i + 1) + " - " + this.posPagos[i].toString() + ";\n");
       }
     } else {
@@ -104,10 +116,7 @@ public class Telefonia {
     }
   }
 
-  // Fazer chamada: o sistema deve solicitar o tipo de assinante e seu CPF. Caso o
-  // assinante seja localizado,o sistema deve solicitar duração e data da chamada
-  // e registrar a chamada para o assinante através do método fazerChamada() de
-  // Pre Pago ou PosPago. Se o assinante não for localizado, exibir mensagem
+  //realizar chamada, solicitando assinante cadastrado
   private void fazerChamada() {
     int opcao, duracao;
     long cpf;
@@ -123,19 +132,26 @@ public class Telefonia {
 
     System.out.println("\nCPF do assinante: ");
     cpf = entrada.nextLong();
-    System.out.println("Duração da chamada: ");
-    duracao = entrada.nextInt();
-    System.out.println("Informe a data da chamada");
-    GregorianCalendar dataFuncao = retornaData();
 
-    // localizar assinante
+    // localizar assinante, caso pre-pago
     if (opcao == 1 && this.localizarPrePago(cpf) != null) {
+
+      System.out.println("Duração da chamada em minutos: ");
+      duracao = entrada.nextInt();
+      System.out.println("Informe a data da chamada");
+      GregorianCalendar dataFuncao = retornaData();
 
       // fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
       localizado.fazerChamada(dataFuncao, duracao);
+    } //localizar assinante, caso pos-pago
+    else if (opcao == 2 && this.localizarPosPago(cpf) != null) {
 
-    } else if (opcao == 2 && this.localizarPosPago(cpf) != null) {
+      System.out.println("Duração da chamada em minutos: ");
+      duracao = entrada.nextInt();
+
+      System.out.println("Informe a data da chamada");
+      GregorianCalendar dataFuncao = retornaData();
 
       // fazer chamada pos-paga
       PosPago localizado = this.localizarPosPago(cpf);
@@ -143,15 +159,11 @@ public class Telefonia {
 
     } else { // se nao encontrar...
       // ...exibir mensagem apropriada
-      System.out.println("Assinante com cpf '" + cpf + "' não localizado no sistema!");
+      System.out.println("Assinante com cpf '" + cpf + "' não localizado no sistema!\n");
     }
   }
 
-  // Fazer recarga: o sistema deverá solicitar o CPF de um assinante pré-pago,
-  // caso assinante seja localizado através do método localizarPrePago(), o
-  // sistema deve solicitar o valor e a data da recarga e registrar a recarga
-  // através do método recarregar() da classe PrePago. Se o assinante não for
-  // localizado, exibir uma mensagem apropriada;
+  //recarregar créditos de assinante pré-pago
   private void fazerRecarga() {
     GregorianCalendar data = new GregorianCalendar();
     float valor;
@@ -165,23 +177,25 @@ public class Telefonia {
     if (this.localizarPrePago(cpf) != null) {
       System.out.println("Informe a data da recarga");
       data = retornaData();
-      System.out.println("\nValor da recarga: ");
-      valor = entrada.nextFloat();
+
+      do {
+        System.out.println("\nValor da recarga em reais: ");
+        valor = entrada.nextFloat();
+      } while (valor <= 0);
 
       // fazer chamada pre-paga
       PrePago localizado = this.localizarPrePago(cpf);
       localizado.recarregar(data, valor);
+
     } else { // se nao encontrar...
       // ...exibir mensagem apropriada
       System.out.println("Assinante pré-pago com cpf '" + cpf + "' não localizado no sistema!");
     }
   }
 
-  // localizar PrePago: devolve o assinante do tipo pré-pago registrado no vetor
-  // prePagos que possuir o CPF igual ao fornecido como argumento Caso o assinante
-  // não seja localizado, o método devolve null;
   private PrePago localizarPrePago(long cpf) {
 
+    //percorrer vetor de pre pagos para localizar o inserido como parametro
     for (int i = 0; i < this.numPrePagos; i++) {
       if (this.prePagos[i].getCpf() == cpf) {
         return this.prePagos[i];
@@ -191,68 +205,53 @@ public class Telefonia {
 
   }
 
-  // localizar PosPago: devolve o assinante do tipo pré-pago registrado no vetor
-  // posPagos que possuir o CPF igual ao fornecido como argumento Caso o assinante
-  // não seja localizado, o método devolve null;
   private PosPago localizarPosPago(long cpf) {
+
+    //percorrer vetor de pos pagos para localizar o inserido como parametro
     for (int i = 0; i < this.numPosPagos; i++) {
       if (this.posPagos[i].getCpf() == cpf) {
         return this.posPagos[i];
       }
     }
     return null;
-
   }
 
-  // Imprimir faturas: o sistema deverá solicitar o mês e imprimir todas as
-  // faturas dos assinantes pré-pagos e pós-pagos;
+  //imprimir faturas de todos os assinantes cadastrados no mes solicitado
   private void imprimirFaturas() {
-    int mes;
 
-    exibirMeses();
-    // solicitar o mes desejado...
-    do {
-      System.out.print("Mês da fatura desejada: ");
-      mes = entrada.nextInt();
-    } while (mes < 1 || mes > 12); // ...enquanto a resposta nao for valida
+    int mes = exibirMeses();
 
+    System.out.println("\n ====================================FATURA==================================== ");
     // pre pagos
-    System.out.println("\nAssinantes pré-pago: ");
+    System.out.println("\nASSINANTES PRÉ-PAGOS: ");
 
     if (this.numPrePagos > 0) {
-      // percorrer o vetor de assinantes pre-pagos
+      // percorrer o vetor de pre-pagos e invocar metodo imprimirFatura dos assinates
       for (int i = 0; i < this.numPrePagos; i++) {
-        // exibir metodo imprimirFatura dos assinantes prePagos no mes inserido
         this.prePagos[i].imprimirFatura(mes);
-        System.out.println("\n");
-        System.out.println(" ================================================================================ ");
-        System.out.println("\n");
       }
     } else {
       System.out.println("Não há assinantes pré-pago cadastros.\n");
     }
 
+    System.out.println("\n");
+    System.out.println(" ================================================================================ ");
+    System.out.println("\n");
+
     // pos pagos
-    System.out.println("\nAssinantes pós-pago: ");
+    System.out.println("ASSINANTES PÓS-PAGOS: ");
 
     if (numPosPagos > 0) {
-      // percorrer o vetor de assinantes pos-pagos
+      // percorrer o vetor de pos-pagos e invocar metodo imprimirFatura dos assinates
       for (int i = 0; i < numPosPagos; i++) {
-        // exibir método imprimirFatura dos assinantes posPagos no mes inserido
         this.posPagos[i].imprimirFatura(mes);
-        System.out.println("\n");
-        System.out.println(" ================================================================================ ");
-        System.out.println("\n");
       }
     } else {
-      System.out.println("Não há assinantes pós-pago cadastros.\n");
+      System.out.println("Não há assinantes pós-pago cadastros.");
     }
   }
 
   // menu
-  // este método deve instanciar um objeto da classe telefonia, exibir
-  // repetidamente o menu de opções e invocar os métodos apropriados a partir da
-  // seleção do usuário
   public static void main(String[] args) {
 
     // instanciar um objeto da classe telefonia
@@ -263,7 +262,7 @@ public class Telefonia {
 
       // exibir repetidamene o menu de opções
       do {
-        System.out.println("\n\nMenu Telefonia: \n");
+        System.out.println("\n\n==========MENU==========");
         System.out.println("1- Cadastrar assinante");
         System.out.println("2- Listar assinantes");
         System.out.println("3- Fazer chamada");
@@ -303,71 +302,46 @@ public class Telefonia {
     }
   }
 
-  public GregorianCalendar retornaData(){
+  //metodo para solicitar dia, mes e ano e retornar um objeto GregorianCalendar com os dados digitados pelo usuário
+  public GregorianCalendar retornaData() {
     int dia, mes, ano;
+    boolean validade;
 
-    System.out.println("Dia: ");
-    dia = entrada.nextInt();
-    System.out.println(" ");
-    exibirMeses();
     do {
-      System.out.print("Mês: ");
-      mes = entrada.nextInt();
-    } while (mes < 1 || mes > 12); // ...enquanto a resposta nao for valida
-    System.out.println("\nAno: ");
-    ano = entrada.nextInt();
-    int mesIndexado = pegaMesIndexado(mes);
-    GregorianCalendar calendar = new GregorianCalendar(ano, mes - 1 , dia);
+
+      // solicitar o dia até que o usuário insira um valor válido
+      do {
+        System.out.print("Dia (1-31): ");
+        dia = entrada.nextInt();
+      } while (dia < 1 || dia > 31);
+
+      // método de exibir e solicitar mês
+      mes = exibirMeses();
+
+      // verificar se data dia/mes é válida
+      if (((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30) || (mes == 2 && dia > 28)) {
+        validade = false;
+        System.out.println("Data " + dia + "/" + mes + " inválida!");
+        System.out.println("Insira a data novamente.\n");
+      } else {
+        validade = true;
+      }
+    } while (validade == false); // enquanto dia/mes nao for valido, solicitar novamente
+
+    // solicitar ano até usuário digitar valor válido
+    do {
+      System.out.print("Ano com 4 dígitos: ");
+      ano = entrada.nextInt();
+    } while (ano < 1877 || String.valueOf(ano).length() != 4); // 1877 = ano que telefonia chegou ao br
+
+    // instanciar e retornar objeto GregorianCalendar com valores inseridos
+    GregorianCalendar calendar = new GregorianCalendar(ano, mes - 1, dia);
     return calendar;
   }
 
+  //metodo para exibir os meses com seus números correspondentes
+  public int exibirMeses() {
 
-  public int pegaMesIndexado(int mes){
-      switch (mes) {
-          case 1 -> {
-              return Calendar.JANUARY;
-          }
-          case 2 -> {
-              return Calendar.FEBRUARY;
-          }
-          case 3 -> {
-              return Calendar.MARCH;
-          }
-          case 4 -> {
-              return Calendar.APRIL;
-          }
-          case 5 -> {
-              return Calendar.MAY;
-          }
-          case 6 -> {
-              return Calendar.JUNE;
-          }
-          case 7 -> {
-              return Calendar.JULY;
-          }
-          case 8 -> {
-              return Calendar.AUGUST;
-          }
-          case 9 -> {
-              return Calendar.SEPTEMBER;
-          }
-          case 10 -> {
-              return Calendar.OCTOBER;
-          }
-          case 11 -> {
-              return Calendar.NOVEMBER;
-          }
-          case 12 -> {
-              return Calendar.DECEMBER;
-          }
-          default -> {
-            return -1;
-          }
-      }
-  }
-
-
-  public void exibirMeses(){
     System.out.println("1 - Janeiro");
     System.out.println("2 - Fevereiro");
     System.out.println("3 - Março");
@@ -380,5 +354,48 @@ public class Telefonia {
     System.out.println("10 - Outubro");
     System.out.println("11 - Novembro");
     System.out.println("12 - Dezembro\n");
+
+    int resposta;
+
+    //solicitar mes até usuário digitar valor válido
+    do {
+      System.out.print("Mês (1-12): ");
+      resposta = entrada.nextInt();
+    } while (resposta < 1 || resposta > 12);
+
+    return resposta;
+  }
+
+  //metodo para validar cpf digitado pelo usuário e passado como parametro
+  public static boolean validaCPF(long cpf) {
+    String cpfStr = String.valueOf(cpf);
+
+    // Verifica se o CPF tem 11 dígitos
+    if (cpfStr.length() != 11) {
+      return false;
+    }
+
+    // Verifica se todos os dígitos são iguais (caso contrário, o CPF é inválido)
+    if (cpfStr.chars().allMatch(c -> c == cpfStr.charAt(0))) {
+      return false;
+    }
+
+    // Calcula o primeiro dígito verificador
+    int digito1 = calculaDigito(cpfStr.substring(0, 9), 10);
+    
+    // Calcula o segundo dígito verificador
+    int digito2 = calculaDigito(cpfStr.substring(0, 9) + digito1, 11);
+
+    // Verifica se os dígitos calculados são iguais aos dígitos informados no CPF
+    return cpfStr.endsWith(String.valueOf(digito1) + String.valueOf(digito2));
+  }
+
+  private static int calculaDigito(String str, int peso) {
+    int total = 0;
+    for (int i = 0; i < str.length(); i++) {
+      total += Integer.parseInt(String.valueOf(str.charAt(i))) * peso--;
+    }
+    int resto = total % 11;
+    return (resto < 2) ? 0 : 11 - resto;
   }
 }
